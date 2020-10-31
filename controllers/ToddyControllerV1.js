@@ -4,7 +4,7 @@ module.exports = {
         let { lote, conteudo, validade } = req.body;
     
         let resposta = {
-            id: "3", // Simulando a resposta do BD
+            _id: "30", // Simulando a resposta do BD
             lote,
             conteudo,
             validade
@@ -18,7 +18,7 @@ module.exports = {
         let { lote, conteudo, validade } = req.body;
     
         let resposta = {
-            id,
+            _id: id,
             lote,
             conteudo,
             validade
@@ -34,7 +34,7 @@ module.exports = {
         if (id) {
             // Buscar por id
             resposta = {
-                id: "1",
+                _id: "1",
                 lote: "X1A",
                 conteudo: "200",
                 validade: "17/11/2020"
@@ -43,19 +43,19 @@ module.exports = {
             // Buscar todos
             resposta = [
                 {
-                    id: "1",
+                    _id: "1",
                     lote: "X1A",
                     conteudo: "200",
                     validade: "17/11/2020"
                 },
                 {
-                    id: "2",
+                    _id: "2",
                     lote: "X1A",
                     conteudo: "200",
                     validade: "17/11/2020"
                 },
                 {
-                    id: "3",
+                    _id: "3",
                     lote: "X1A",
                     conteudo: "200",
                     validade: "17/11/2020"
@@ -70,7 +70,7 @@ module.exports = {
         let { id } = req.params;
     
         let resposta = {
-            id,
+            _id: id,
             nExcluidos: 1
         }
     
