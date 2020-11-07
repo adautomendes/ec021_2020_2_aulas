@@ -3,78 +3,41 @@ const Toddy = require('../models/Toddy');
 module.exports = {
     create: async (req, res) => {
         console.log("Executando rota POST");
-        let { lote, conteudo, validade } = req.body;
 
-        let resposta = await Toddy.create(
-            {
-                lote,
-                conteudo,
-                validade
-            }
-        );
+        let resposta = await Toddy.create(req.body);
 
         return res.json(201, resposta);
     },
-    update: (req, res) => {
+    update: async (req, res) => {
         console.log("Executando rota PATCH");
         let { id } = req.params;
-        let { lote, conteudo, validade } = req.body;
 
-        let resposta = {
-            id,
-            lote,
-            conteudo,
-            validade
-        };
+        let resposta = await Toddy.findByIdAndUpdate(id, req.body, { new: true });
 
         return res.json(200, resposta);
     },
-    search: (req, res) => {
+    search: async (req, res) => {
         console.log("Executando rota GET");
         let { id } = req.query;
 
         let resposta;
         if (id) {
             // Buscar por id
-            resposta = {
-                id: "1",
-                lote: "X1A",
-                conteudo: "200",
-                validade: "17/11/2020"
-            }
+            resposta = await Toddy.findById(id);
         } else {
             // Buscar todos
-            resposta = [
-                {
-                    id: "1",
-                    lote: "X1A",
-                    conteudo: "200",
-                    validade: "17/11/2020"
-                },
-                {
-                    id: "2",
-                    lote: "X1A",
-                    conteudo: "200",
-                    validade: "17/11/2020"
-                },
-                {
-                    id: "3",
-                    lote: "X1A",
-                    conteudo: "200",
-                    validade: "17/11/2020"
-                }
-            ];
+            resposta = await Toddy.find();
         }
 
         return res.json(200, resposta);
     },
-    remove: (req, res) => {
+    remove: async (req, res) => {
         console.log("Executando rota DELETE");
         let { id } = req.params;
 
         let resposta = {
             id,
-            nExcluidos: 1
+            excluido: await Toddy.findByIdAndDelete(id)
         }
 
         return res.json(200, resposta);

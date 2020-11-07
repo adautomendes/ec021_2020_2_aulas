@@ -6,6 +6,51 @@
 	},
 	"item": [
 		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e4cc523d-4ffc-4c48-81cd-5ec1a83585f7",
+						"exec": [
+							"//Convertendo a respose em JSON\r",
+							"var response = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"token\", response.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": \"Adauto\",\r\n    \"pass\": \"123456\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/auth/v1/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"auth",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create Toddy",
 			"event": [
 				{
@@ -24,14 +69,31 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "990ddeb2-f493-429b-bb13-eaa2fc8967f3",
+						"exec": [
+							"var nLote = _.random(1, 9999);\r",
+							"pm.globals.set(\"nLote\", nLote);"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"lote\": \"X1Adauto\",\r\n    \"conteudo\": \"200\",\r\n    \"validade\": \"17/11/2020\"\r\n}",
+					"raw": "{\r\n    \"lote\": \"Lote_{{nLote}}\",\r\n    \"conteudo\": \"200\",\r\n    \"validade\": \"17/11/2020\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -68,6 +130,17 @@
 						],
 						"type": "text/javascript"
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8c14b954-7600-492f-b51a-1c5abfeab484",
+						"exec": [
+							"var nLote = _.random(1, 9999);\r",
+							"pm.globals.set(\"nLote\", nLote);"
+						],
+						"type": "text/javascript"
+					}
 				}
 			],
 			"request": {
@@ -75,7 +148,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"lote\": \"X1B\",\r\n    \"conteudo\": \"250\",\r\n    \"validade\": \"17/12/2020\"\r\n}",
+					"raw": "{\r\n    \"lote\": \"Lote_{{nLote}}\",\r\n    \"conteudo\": \"260\",\r\n    \"validade\": \"17/12/2020\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
