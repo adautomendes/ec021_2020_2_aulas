@@ -51,7 +51,7 @@
 			"response": []
 		},
 		{
-			"name": "Create Toddy",
+			"name": "Create Toddy CORE",
 			"event": [
 				{
 					"listen": "test",
@@ -117,7 +117,7 @@
 			"response": []
 		},
 		{
-			"name": "Update Toddy",
+			"name": "Update Toddy CORE",
 			"event": [
 				{
 					"listen": "test",
@@ -173,7 +173,7 @@
 			"response": []
 		},
 		{
-			"name": "Search Toddy",
+			"name": "Search Toddy CORE",
 			"event": [
 				{
 					"listen": "test",
@@ -214,7 +214,7 @@
 			"response": []
 		},
 		{
-			"name": "Remove Toddy",
+			"name": "Remove Toddy CORE",
 			"event": [
 				{
 					"listen": "test",
@@ -242,6 +242,223 @@
 					"path": [
 						"ec021",
 						"{{routerVersion}}",
+						"toddy",
+						"{{toddyId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Toddy API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d740bbf0-c119-4531-a47e-285642b31291",
+						"exec": [
+							"//Convertendo a respose em JSON\r",
+							"var response = pm.response.json();\r",
+							"\r",
+							"pm.globals.set(\"toddyId\", response._id);\r",
+							"\r",
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7cbf8973-7b59-4d92-b73c-393efadd08b8",
+						"exec": [
+							"var nLote = _.random(1, 9999);\r",
+							"pm.globals.set(\"nLote\", nLote);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"type": "text",
+						"value": "{{token}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lote\": \"Lote_{{nLote}}\",\r\n    \"conteudo\": \"200\",\r\n    \"validade\": \"17/11/2020\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/toddy",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"toddy"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Toddy API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "284b0ae1-e8f3-4d8f-b387-ba99a0212006",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "8ba93220-418c-4034-8234-988f1e98d468",
+						"exec": [
+							"var nLote = _.random(1, 9999);\r",
+							"pm.globals.set(\"nLote\", nLote);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"lote\": \"Lote_{{nLote}}\",\r\n    \"conteudo\": \"260\",\r\n    \"validade\": \"17/12/2020\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/toddy/{{toddyId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"toddy",
+						"{{toddyId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Toddy API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "cfef92cb-15d9-4362-92d8-b3a0cf846f4d",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/toddy?id={{toddyId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"toddy"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "{{toddyId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove Toddy API",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d25fb3d-9d4f-4839-8a61-0d870ea763e4",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/toddy/{{toddyId}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
 						"toddy",
 						"{{toddyId}}"
 					]
