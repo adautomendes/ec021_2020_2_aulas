@@ -1,7 +1,7 @@
 const axios = require('axios');
 const coreAxios = axios.create(
     {
-        baseURL: `http://localhost:5000/ec021/v2`
+        baseURL: `http://host.docker.internal:8000/ec021/v2`
     }
 );
 
