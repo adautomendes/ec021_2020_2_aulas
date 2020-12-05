@@ -1,7 +1,8 @@
+require('dotenv').config();
 const axios = require('axios');
 const coreAxios = axios.create(
     {
-        baseURL: `http://host.docker.internal:8000/ec021/v2`
+        baseURL: `${process.env.CORE_URL}/ec021/v2`
     }
 );
 

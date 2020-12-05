@@ -1,0 +1,44 @@
+version: "3.8"
+
+services:
+  mongo-db:
+    image: "mongo"
+    restart: unless-stopped
+    logging:
+      driver: "none"
+    volumes:
+      - ".:/mongo-db"
+    ports:
+      - "27017:27017"
+    networks:
+      - ec021-network
+
+  core:
+    build: "./core"
+    volumes:
+      - ".:/core"
+    networks:
+      - ec021-network
+    expose:
+      - "5000"
+    depends_on:
+      - mongo-db
+    environment:
+      - DB_URL=mongodb://mongo-db:27017/
+  
+  api:
+    build: "./api"
+    volumes:
+      - ".:/api"
+    networks:
+      - ec021-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - core
+    environment:
+      - CORE_URL=http://core:5000
+
+networks:
+  ec021-network:
+    driver: bridge
